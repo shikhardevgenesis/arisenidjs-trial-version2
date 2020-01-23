@@ -7,8 +7,8 @@ const getPackagePath = x => `./packages/${x}/src/index.js`;
 
 const packageFiles = [
 	'core',
-	'plugin-eosjs',
-	'plugin-eosjs2',
+	'plugin-arisenjs',
+	'plugin-arisenjs2',
 	'plugin-web3',
 	'plugin-tron',
 	'plugin-lynx',
@@ -21,7 +21,7 @@ module.exports = {
 	entry,
 	output: {
 		path: path.resolve(__dirname, './bundles'),
-		filename: 'scatterjs-[name]'
+		filename: 'arisenidjs-[name]'
 	},
 	resolve: {
 		modules:[
@@ -50,11 +50,11 @@ module.exports = {
 	plugins: [
 		new webpack.BannerPlugin({
 			banner:(x) => {
-				const packageName = x.filename.replace('scatterjs-', '').replace('.min.js', '');
+				const packageName = x.filename.replace('arisenidjs-', '').replace('.min.js', '');
 				const version = require(`./packages/${packageName}/package.json`).version;
 				return `
-ScatterJS - ${packageName} v${version}
-https://github.com/GetScatter/scatter-js/
+ArisenidJS - ${packageName} v${version}
+https://github.com/GetArisenid/arisenid-js/
 Released under the MIT license.
 				`;
 			}
@@ -66,6 +66,6 @@ Released under the MIT license.
 	// devtool: false,
 	devtool: 'inline-source-map',
 	externals: {
-		'@scatterjs/core': 'ScatterJS'
+		'@arisenidjs/core': 'ArisenidJS'
 	}
 }

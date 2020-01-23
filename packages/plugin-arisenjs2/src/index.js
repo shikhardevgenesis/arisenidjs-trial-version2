@@ -4,16 +4,16 @@ import {
 	Blockchains,
 	Network,
 	SocketService
-} from '@scatterjs/core';
+} from '@arisenidjs/core';
 
 let socketService = SocketService;
 const proxy = (dummy, handler) => new Proxy(dummy, handler);
 let cache = {};
 
-export default class ScatterEOS extends Plugin {
+export default class ArisenidARISEN extends Plugin {
 
     constructor(){
-        super(Blockchains.EOS, PluginTypes.BLOCKCHAIN_SUPPORT);
+        super(Blockchains.ARISEN, PluginTypes.BLOCKCHAIN_SUPPORT);
     }
 
 	setSocketService(_s){
@@ -31,7 +31,7 @@ export default class ScatterEOS extends Plugin {
                     payload:{}
                 }).then(id => {
                     if(!id) return [];
-                    return id.accounts.filter(x => x.blockchain === Blockchains.EOS).map(x => x.publicKey)
+                    return id.accounts.filter(x => x.blockchain === Blockchains.ARISEN).map(x => x.publicKey)
                 });
             },
 
@@ -42,7 +42,7 @@ export default class ScatterEOS extends Plugin {
                 return new Promise(async (resolve, reject) => {
 	                socketService.sendApiRequest({
                         type:'requestSignature',
-                        payload:{ transaction:signargs, blockchain:Blockchains.EOS, network, requiredFields }
+                        payload:{ transaction:signargs, blockchain:Blockchains.ARISEN, network, requiredFields }
                     }).then(x => {
 	                    resolve({signatures:x.signatures, serializedTransaction:Buffer.from(signargs.serializedTransaction, 'hex')})
                     })
@@ -53,14 +53,14 @@ export default class ScatterEOS extends Plugin {
     }
 
     multiHook(network, signers){
-        const scatterSigner = this.eosHook(network);
+        const arisenidSigner = this.arisenHook(network);
 
         if(!Array.isArray(signers)) signers = [signers];
 
         return {
             getAvailableKeys:async () => {
 	            try {
-		            const scatterKeys = await scatterSigner.getAvailableKeys();
+		            const arisenidKeys = await arisenidSigner.getAvailableKeys();
 
 		            let otherKeys = [];
 		            await Promise.all(signers.map(async signer => {
@@ -70,7 +70,7 @@ export default class ScatterEOS extends Plugin {
 		            	return true;
 		            }));
 
-		            return scatterKeys.concat(otherKeys)
+		            return arisenidKeys.concat(otherKeys)
 	            } catch(e){
 		            throw new Error(e);
 	            }
@@ -92,8 +92,8 @@ export default class ScatterEOS extends Plugin {
 			            return result;
 		            };
 
-		            const scatterSigs = await scatterSigner
-			            .sign(await individualSignArgs(scatterSigner))
+		            const arisenidSigs = await arisenidSigner
+			            .sign(await individualSignArgs(arisenidSigner))
 			            .then(x => pullOutSignatures(x));
 
 		            let otherSigs = [];
@@ -105,7 +105,7 @@ export default class ScatterEOS extends Plugin {
 		            }));
 
 		            return {
-			            signatures: scatterSigs.concat(otherSigs),
+			            signatures: arisenidSigs.concat(otherSigs),
 			            serializedTransaction
 		            }
 	            } catch(e){
@@ -128,19 +128,19 @@ export default class ScatterEOS extends Plugin {
             const fieldsFetcher = () => requiredFields;
             const signatureProvider = this.hookProvider(network, fieldsFetcher);
 
-            // The proxy stands between the eosjs object and scatter.
+            // The proxy stands between the arisenjs object and arisenid.
             // This is used to add special functionality like adding `requiredFields` arrays to transactions
             return proxy(new _api(Object.assign(_options, {signatureProvider})), {
-                get(eosInstance, method) {
+                get(arisenInstance, method) {
 
                     return (...args) => {
-                    	if(typeof eosInstance[method] === 'undefined'){
-                    		throw new Error(`${method} does not exist on the eosjs.Api() object.`)
+                    	if(typeof arisenInstance[method] === 'undefined'){
+                    		throw new Error(`${method} does not exist on the arisenjs.Api() object.`)
 						}
 
                         const rqf = args.find(arg => arg.hasOwnProperty('requiredFields'));
                         requiredFields = rqf ? rqf.requiredFields : {};
-                        return eosInstance[method](...args)
+                        return arisenInstance[method](...args)
                     }
                 }
             }); // Proxy
@@ -150,5 +150,5 @@ export default class ScatterEOS extends Plugin {
 }
 
 if(typeof window !== 'undefined') {
-	window.ScatterEOS = ScatterEOS;
+	window.ArisenidARISEN = ArisenidARISEN;
 }

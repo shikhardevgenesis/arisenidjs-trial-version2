@@ -2,7 +2,7 @@ import {Blockchains} from "./Blockchains";
 
 export default class Token {
 
-	constructor(blockchain = Blockchains.EOS, contract = '', symbol = '', name = null, decimals = null){
+	constructor(blockchain = Blockchains.ARISEN, contract = '', symbol = '', name = null, decimals = null){
 		this.blockchain = blockchain;
 		this.contract = contract;
 		this.symbol = symbol;

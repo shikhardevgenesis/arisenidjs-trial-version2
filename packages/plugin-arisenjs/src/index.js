@@ -4,15 +4,15 @@ import {
 	Blockchains,
 	Network,
 	SocketService
-} from '@scatterjs/core';
+} from '../../plugin-arisenjs2/dist/node_modules/@arisenidjs/core';
 
 let socketService = SocketService;
 const proxy = (dummy, handler) => new Proxy(dummy, handler);
 
-export default class ScatterEOS extends Plugin {
+export default class ArisenidARISEN extends Plugin {
 
     constructor(){
-        super(Blockchains.EOS, PluginTypes.BLOCKCHAIN_SUPPORT);
+        super(Blockchains.ARISEN, PluginTypes.BLOCKCHAIN_SUPPORT);
     }
 
 	setSocketService(_s){
@@ -22,7 +22,7 @@ export default class ScatterEOS extends Plugin {
     hookProvider(network){
         return signargs => {
             return new Promise((resolve, reject) => {
-                const payload = Object.assign(signargs, { blockchain:Blockchains.EOS, network, requiredFields:{} });
+                const payload = Object.assign(signargs, { blockchain:Blockchains.ARISEN, network, requiredFields:{} });
 	            socketService.sendApiRequest({
                     type:'requestSignature',
                     payload
@@ -36,14 +36,14 @@ export default class ScatterEOS extends Plugin {
 
         const throwIfNoIdentity = args[0];
 
-        return (network, _eos, _options = {}) => {
+        return (network, _arisen, _options = {}) => {
 
             network = Network.fromJson(network);
 
             const chainId = network.hasOwnProperty('chainId') && network.chainId.length ? network.chainId : _options.chainId;
 
             let prov, proxyProvider = async (args) => prov(args);
-            return proxy(_eos({httpEndpoint:network.fullhost(), chainId, signProvider:proxyProvider}), {
+            return proxy(_arisen({httpEndpoint:network.fullhost(), chainId, signProvider:proxyProvider}), {
                 get(instance, method) {
 
                     if(typeof instance[method] !== 'function') return instance[method];
@@ -57,7 +57,7 @@ export default class ScatterEOS extends Plugin {
 	                        throwIfNoIdentity();
 
 	                        const requiredFields = args.find(arg => arg.hasOwnProperty('requiredFields')) || {requiredFields:{}};
-	                        const payload = Object.assign(signargs, { blockchain:Blockchains.EOS, network, requiredFields:requiredFields.requiredFields });
+	                        const payload = Object.assign(signargs, { blockchain:Blockchains.ARISEN, network, requiredFields:requiredFields.requiredFields });
 	                        const result = await socketService.sendApiRequest({ type:'requestSignature', payload });
 
 	                        // No signature
@@ -101,5 +101,5 @@ export default class ScatterEOS extends Plugin {
 }
 
 if(typeof window !== 'undefined') {
-	window.ScatterEOS = ScatterEOS;
+	window.ArisenidARISEN = ArisenidARISEN;
 }

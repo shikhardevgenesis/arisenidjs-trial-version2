@@ -1,31 +1,31 @@
-// import ScatterJS from '../src/scatter';
+// import ArisenidJS from '../src/arisenid';
 // import SocketService from '../src/services/SocketService';
 // import { assert } from 'chai';
 // import 'mocha';
 //
 // const network = {
-//     blockchain:'eos',
+//     blockchain:'arisen',
 //     protocol:'http',
 //     host:'192.168.1.6',
 //     port:8888,
 //     chainId:'cf057bbfb72640471fd910bcb67639c22df9f92470936cddc1ade0e2f2e7dc4f'
 // }
 //
-// let scatter, identity;
+// let arisenid, identity;
 //
 // describe('Api', () => {
 //
-//     it('should create a connection to Scatter', done => {
+//     it('should create a connection to Arisenid', done => {
 //         new Promise(async() => {
-//             ScatterJS.scatter.connect("Test Plugin").then(connected => {
+//             ArisenidJS.arisenid.connect("Test Plugin").then(connected => {
 //                 assert(connected, 'Not connected');
-//                 scatter = ScatterJS.scatter;
+//                 arisenid = ArisenidJS.arisenid;
 //                 done();
 //             })
 //         });
 //     });
 //
-//     it('should be able to get the Scatter version', done => {
+//     it('should be able to get the Arisenid version', done => {
 //         new Promise(async() => {
 //             const test = await SocketService.sendApiRequest({
 //                 type:'getVersion',
@@ -116,23 +116,23 @@
 //
 //     let transaction;
 //
-//     it('should be able to create a transaction using Scatter', done => {
+//     it('should be able to create a transaction using Arisenid', done => {
 //         new Promise(async() => {
-//             const account = identity.accounts.find(x => x.blockchain === 'eos');
+//             const account = identity.accounts.find(x => x.blockchain === 'arisen');
 //             transaction = await SocketService.sendApiRequest({
 //                 type:'createTransaction',
 //                 payload:{
-//                     blockchain:'eos',
+//                     blockchain:'arisen',
 //                     actions:[
 //                         {
-//                             contract:'eosio.token',
+//                             contract:'arisenio.token',
 //                             action:'transfer',
-//                             params:[account.name, 'eosio', '1.0000 EOS', ''],
+//                             params:[account.name, 'arisenio', '1.0000 ARISEN', ''],
 //                         },
 //                         {
-//                             contract:'eosio.token',
+//                             contract:'arisenio.token',
 //                             action:'transfer',
-//                             params:[account.name, 'eosio', '2.0000 EOS', ''],
+//                             params:[account.name, 'arisenio', '2.0000 ARISEN', ''],
 //                         }
 //                     ],
 //                     account,
@@ -145,9 +145,9 @@
 //         });
 //     });
 //
-//     it('should be able to request a signature for a transaction using Scatter', done => {
+//     it('should be able to request a signature for a transaction using Arisenid', done => {
 //         new Promise(async() => {
-//             const account = identity.accounts.find(x => x.blockchain === 'eos');
+//             const account = identity.accounts.find(x => x.blockchain === 'arisen');
 //             const test = await SocketService.sendApiRequest({
 //                 type:'requestSignature',
 //                 payload:transaction

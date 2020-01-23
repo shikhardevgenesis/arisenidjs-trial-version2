@@ -1,4 +1,4 @@
-import {Blockchains, Network, Plugin, PluginTypes, SocketService, WALLET_METHODS} from '@scatterjs/core';
+import {Blockchains, Network, Plugin, PluginTypes, SocketService, WALLET_METHODS} from '../../plugin-arisenjs2/dist/node_modules/@arisenidjs/core';
 
 let network;
 
@@ -35,26 +35,26 @@ const sha256 = async data => {
 }
 
 
-export default class ScatterLynx extends Plugin {
+export default class ArisenidLynx extends Plugin {
 
-    constructor(eosjs){
-	    super(Blockchains.EOS, PluginTypes.WALLET_SUPPORT);
+    constructor(arisenjs){
+	    super(Blockchains.ARISEN, PluginTypes.WALLET_SUPPORT);
 
-    	if(!eosjs) {
-    		console.error('Lynx Plugin: You must pass in an eosjs version. Either ({Api, JsonRpc}) for eosjs2 or (Eos) for eosjs1');
+    	if(!arisenjs) {
+    		console.error('Lynx Plugin: You must pass in an arisenjs version. Either ({Api, JsonRpc}) for arisenjs2 or (Arisen) for arisenjs1');
     		return;
 	    }
 	    this.name = 'Lynx';
-	    this.isEosjs2 = false;
+	    this.isArisenjs2 = false;
 
-	    // eosjs2
-	    if(eosjs.hasOwnProperty('JsonRpc')){
-	    	this.eosjs = eosjs;
-		    this.isEosjs2 = true;
+	    // arisenjs2
+	    if(arisenjs.hasOwnProperty('JsonRpc')){
+	    	this.arisenjs = arisenjs;
+		    this.isArisenjs2 = true;
 	    }
 	    else {
-	    	if(typeof eosjs !== 'function') throw new Error('Lynx Plugin: Invalid eosjs. Please use 16.0.9 or 20+');
-		    this.eosjs = eosjs;
+	    	if(typeof arisenjs !== 'function') throw new Error('Lynx Plugin: Invalid arisenjs. Please use 16.0.9 or 20+');
+		    this.arisenjs = arisenjs;
 	    }
     }
 
@@ -111,7 +111,7 @@ export default class ScatterLynx extends Plugin {
 			        name: accountState.account.account_name,
 			        authority: perm.perm_name,
 			        publicKey,
-			        blockchain: Blockchains.EOS,
+			        blockchain: Blockchains.ARISEN,
 			        isHardware: false,
 			        chainId
 		        }];
@@ -146,27 +146,27 @@ export default class ScatterLynx extends Plugin {
 	        [WALLET_METHODS.requestSignature]:async ({abis, transaction, network}) => {
 		        let parsed;
 
-		        if(this.isEosjs2){
-			        const rpc = new this.eosjs.JsonRpc(Network.fromJson(network).fullhost());
+		        if(this.isArisenjs2){
+			        const rpc = new this.arisenjs.JsonRpc(Network.fromJson(network).fullhost());
 			        const OPTIONS = {rpc};
-			        Object.keys(this.eosjs).map(key => {
+			        Object.keys(this.arisenjs).map(key => {
 			        	if(key === 'JsonRpc' || key === 'Api') return;
-			        	OPTIONS[key] = this.eosjs[key];
+			        	OPTIONS[key] = this.arisenjs[key];
 			        });
-			        const api = new this.eosjs.Api(OPTIONS);
+			        const api = new this.arisenjs.Api(OPTIONS);
 
 			        transaction.abis.map(({account_name, abi:rawAbi}) => api.cachedAbis.set(account_name, { rawAbi, abi:api.rawAbiToJson(rawAbi) }));
 			        parsed = await api.deserializeTransactionWithActions(transaction.serializedTransaction);
 		        }
 		        else {
-		        	const eos = new this.eosjs({httpEndpoint:Network.fromJson(network).fullhost(), chainId:network.chainId});
+		        	const arisen = new this.arisenjs({httpEndpoint:Network.fromJson(network).fullhost(), chainId:network.chainId});
 		        	let abis = {};
 			        const contracts = transaction.actions.map(action => action.account).reduce((acc,x) => {
 			        	if(!acc.includes(x)) acc.push(x);
 			        	return acc;
 			        }, []);
 			        await Promise.all(contracts.map(async contractAccount => {
-				        abis[contractAccount] = (await eos.contract(contractAccount)).fc;
+				        abis[contractAccount] = (await arisen.contract(contractAccount)).fc;
 			        }));
 
 			        parsed = {actions:await Promise.all(transaction.actions.map(async (action, index) => {
@@ -176,7 +176,7 @@ export default class ScatterLynx extends Plugin {
 				        const typeName = abi.abi.actions.find(x => x.name === action.name).type;
 				        const data = abi.fromBuffer(typeName, action.data);
 				        const actionAbi = abi.abi.actions.find(fcAction => fcAction.name === action.name);
-				        eos.fc.abiCache.abi(contractAccountName, abi.abi);
+				        arisen.fc.abiCache.abi(contractAccountName, abi.abi);
 
 				        return {
 					        data,
@@ -197,8 +197,8 @@ export default class ScatterLynx extends Plugin {
 
 	        [WALLET_METHODS.requestTransfer]:(network, to, amount, options = {}) => {
 	        	let {contract, symbol, memo, decimals} = options;
-	        	if(!contract) contract = 'eosio.token';
-	        	if(!symbol) symbol = 'EOS';
+	        	if(!contract) contract = 'arisenio.token';
+	        	if(!symbol) symbol = 'ARISEN';
 
 		        return window.lynxMobile.transfer({ contract, symbol, toAccount:to, amount, memo });
 	        },
@@ -209,5 +209,5 @@ export default class ScatterLynx extends Plugin {
 }
 
 if(typeof window !== 'undefined') {
-	window.ScatterLynx = ScatterLynx;
+	window.ArisenidLynx = ArisenidLynx;
 }

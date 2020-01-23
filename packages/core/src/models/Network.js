@@ -2,7 +2,7 @@ import {Blockchains} from './Blockchains';
 import Token from "./Token";
 
 export default class Network {
-    constructor(_name = '', _protocol = 'https', _host = '', _port = 0, blockchain = Blockchains.EOS, chainId = ''){
+    constructor(_name = '', _protocol = 'https', _host = '', _port = 0, blockchain = Blockchains.ARISEN, chainId = ''){
         this.name = _name;
         this.protocol = _protocol;
         this.host = _host;

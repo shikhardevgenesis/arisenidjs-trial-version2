@@ -1,6 +1,6 @@
 
 export const Blockchains = {
-    EOS:'eos',
+    ARISEN:'arisen',
     ETH:'eth',
     TRX:'trx'
 };
