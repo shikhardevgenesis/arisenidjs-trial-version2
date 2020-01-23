@@ -1,6 +1,6 @@
 {
 	"name": "arisenidjs-trial-version2-arisenjs2",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"main": "dist/index.js",
 	"license": "MIT",
 	"gitHead": "1ee57f49c5909e71f1ec64b91bb6b2fb570974c0",
@@ -11,6 +11,6 @@
 		"dist"
 	],
 	"dependencies": {
-		"arisenidjs-trial-version2-core": "^1.0.1"
+		"arisenidjs-trial-version2-core": "^1.0.2"
 	}
 }
