@@ -1,7 +1,7 @@
 {
 	"name": "arisenidjs-trial-version2",
-	"version": "1.0.0",
-	"description": "",
+	"version": "1.0.1",
+	"description": "arisenidjs-trial-version2",
 	"scripts": {
 		"postinstall": "lerna bootstrap",
 		"build": "lerna exec -- babel --config-file ../../babel.config.js --out-dir dist src",

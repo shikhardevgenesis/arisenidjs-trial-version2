@@ -1,5 +1,5 @@
 {
-	"name": "@arisenidjs/core",
+	"name": "arisenidjs-trial-version2-core",
 	"version": "1.0.1",
 	"main": "dist/index.js",
 	"license": "MIT",
@@ -14,7 +14,7 @@
 	"files": [
 		"dist"
 	],
-	"gitHead": "dadb46787c05b190765b3a112b85d9d26c451c08",
+	"gitHead": "1ee57f49c5909e71f1ec64b91bb6b2fb570974c0",
 	"publishConfig": {
 		"access": "public"
 	}

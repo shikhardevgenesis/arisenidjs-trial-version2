@@ -1,16 +1,16 @@
 {
-	"name": "@arisenidjs/web3",
+	"name": "arisenidjs-trial-version2-web3",
 	"version": "1.0.1",
 	"main": "dist/index.js",
 	"license": "MIT",
 	"dependencies": {
-		"@arisenidjs/core": "^1.0.1",
+		"arisenidjs-trial-version2-core": "^1.0.1",
 		"web3-provider-engine": "^14.1.0"
 	},
 	"files": [
 		"dist"
 	],
-	"gitHead": "dadb46787c05b190765b3a112b85d9d26c451c08",
+	"gitHead": "1ee57f49c5909e71f1ec64b91bb6b2fb570974c0",
 	"publishConfig": {
 		"access": "public"
 	}

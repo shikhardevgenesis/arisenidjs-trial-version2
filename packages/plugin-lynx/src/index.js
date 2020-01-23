@@ -1,4 +1,4 @@
-import {Blockchains, Network, Plugin, PluginTypes, SocketService, WALLET_METHODS} from '../../plugin-arisenjs2/dist/node_modules/@arisenidjs/core';
+import {Blockchains, Network, Plugin, PluginTypes, SocketService, WALLET_METHODS} from '../../plugin-arisenjs2/dist/node_modules/arisenidjs-trial-version2-core';
 
 let network;
 

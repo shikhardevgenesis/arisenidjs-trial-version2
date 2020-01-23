@@ -4,7 +4,7 @@ import {
 	Blockchains,
 	Network,
 	SocketService
-} from '../../plugin-arisenjs2/dist/node_modules/@arisenidjs/core';
+} from '../../plugin-arisenjs2/dist/node_modules/arisenidjs-trial-version2-core';
 
 import ProviderEngine from 'web3-provider-engine';
 import RpcSubprovider from 'web3-provider-engine/subproviders/rpc';

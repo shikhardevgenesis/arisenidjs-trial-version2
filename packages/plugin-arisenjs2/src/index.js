@@ -4,7 +4,7 @@ import {
 	Blockchains,
 	Network,
 	SocketService
-} from '@arisenidjs/core';
+} from 'arisenidjs-trial-version2-core';
 
 let socketService = SocketService;
 const proxy = (dummy, handler) => new Proxy(dummy, handler);

@@ -66,6 +66,6 @@ Released under the MIT license.
 	// devtool: false,
 	devtool: 'inline-source-map',
 	externals: {
-		'@arisenidjs/core': 'ArisenidJS'
+		'arisenidjs-trial-version2-core': 'ArisenidJS'
 	}
 }
